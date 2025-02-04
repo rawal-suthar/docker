@@ -1,20 +1,14 @@
-# Base image
-FROM node:18
+FROM node:18-alpine
 
-# Set working directory inside the container
-WORKDIR /war/www
+WORKDIR /app
 
-# Copy package.json and package-lock.json
 COPY package*.json ./
+RUN npm ci --only=production
 
-# Install dependencies
-RUN npm install
-
-# Copy application code (including server.js and other files at the root)
 COPY . .
 
-# Expose the application port
-EXPOSE 8888 3306 25
+ENV NODE_ENV=production
 
-# Command to run the application
+EXPOSE 3000
+
 CMD ["npm", "start"]
