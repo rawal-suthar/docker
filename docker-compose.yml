@@ -11,8 +11,6 @@ services:
       DB_PORT: 3306
       DB_USER: root
       DB_PASSWORD: root
-    volumes:
-      - ./api:/app
     expose:
       - "3000"
     networks:
@@ -27,6 +25,8 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - "80:80"
+    expose:
+      - "80"
     networks:
       - app_network
 
