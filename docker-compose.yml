@@ -2,13 +2,6 @@ services:
   api:
     build: .
     restart: always
-    depends_on:
-      - database
-    environment:
-      DB_HOST: database
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: root
     expose:
       - "3000"
     networks:
