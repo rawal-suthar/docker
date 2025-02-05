@@ -1,35 +1,18 @@
 require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql');
 
 const app = express();
 
-// Database Connection
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
-});
-
-db.connect(err => {
-    if (err) {
-        console.error('Database connection failed:', err);
-        return;
-    }
-    console.log('Connected to database');
-});
-
-// Route to get database server details
-app.get('/db-info', (req, res) => {
-    console.log({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD
-    });
-    db.query('SELECT VERSION() AS version, DATABASE() AS database_name, USER() AS user', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results[0]);
-    });
+// Route to get system details
+app.get('/system-info', (req, res) => {
+    const systemDetails = {
+        platform: process.platform,
+        nodeVersion: process.version,
+        arch: process.arch,
+        uptime: process.uptime(),
+        memoryUsage: process.memoryUsage(),
+    };
+    res.json(systemDetails);
 });
 
 // Start Server
